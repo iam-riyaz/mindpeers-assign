@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Chat Widget</title>
+  </head>
+  <body>
+    <!-- Chat popup (hidden by default) -->
+    <div
+      id="chat-popup"
+      style="
+        display: none;
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        width: 300px;
+        height: 400px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: rgb(200, 189, 255);
+      "
+    >
+      <div
+        id="chat-messages"
+        style="height: 300px; overflow-y: scroll; padding: 10px"
+      ></div>
+      <input
+        type="text"
+        id="message-input"
+        style="width: 90%; padding: 5px"
+        placeholder="enter message"
+        p
+      />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+    <!-- Widget icon -->
+    <div
+      id="chat-widget-icon"
+      style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #4caf50;
+        padding: 20px 15px 20px 15px;
+
+        color: white;
+        cursor: pointer;
+        border-radius: 50%;
+      "
+    >
+      Chat
+    </div>
+    <div
+      id="chat-widget-cross"
+      style="
+      font-size: 30px;
+        display: none;
+        position: fixed;
+        bottom: 20px;
+        right: 75px;
+        cursor: pointer;
+        border-radius: 50%;
+      "
+    >
+      ❎
+    </div>
+
+    <!-- Socket.IO -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <!-- Chat Widget Script -->
+    <script>
+      const socket = io();
+      let username = prompt("Please enter your name:");
+
+      // Open chat popup on widget icon click
+      document
+        .getElementById("chat-widget-icon")
+        .addEventListener("click", () => {
+          document.getElementById("chat-popup").style.display = "block";
+          document.getElementById("chat-widget-cross").style.display = "block";
+          // Notify the server that the user has joined
+          socket.emit("join", { username });
+        });
+
+      document
+        .getElementById("chat-widget-cross")
+        .addEventListener("click", () => {
+          document.getElementById("chat-popup").style.display = "none";
+          document.getElementById("chat-widget-cross").style.display = "none";
+        });
+
+      // recieve messages
+      socket.on("message incoming", (messageData) => {
+        const { message, username } = messageData;
+        console.log({ message });
+        const chatBox = document.getElementById("chat-messages");
+        chatBox.innerHTML += `<p style="padding:7px; background-color:#edebe8; border-radius:10px"><strong>${username}:</strong> ${message}</p>`;
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+
+      // Function to send a message
+      function sendMessage() {
+        const message = document.getElementById("message-input").value;
+        const chatBox = document.getElementById("chat-messages");
+        chatBox.innerHTML += `<p style="text-align:end; padding:7px; background-color:#b9fad9; border-radius:10px"><strong>${username}:</strong> ${message}</p>`;
+        window.scrollTo(0, document.body.scrollHeight);
+        socket.emit("message outgoing", { username, message });
+        document.getElementById("message-input").value = "";
+      }
+    </script>
+  </body>
+</html>
