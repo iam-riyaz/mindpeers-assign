@@ -1,4 +1,4 @@
-import { employeesRoute } from "./routes/employees.route.js";
+
 import { app } from "./utils/server.js";
 
 // to return the chat widget 
