@@ -10,7 +10,8 @@
 
 ## Flow
 
-- root url have to run 
+ ### deployed link: `https://mindpeers-riyaz.onrender.com/ ` this might take a higher time for loading first time as I'm using free web app service to deploy so this link took some time to start the backend however app is working really fine.
+- hit the root url
 - an pop-up will come ask for username
 - backend will cheack if that username already exists if yes the go forward in not then create a new user using that usename
 - clink on chat a pop-up window opens
