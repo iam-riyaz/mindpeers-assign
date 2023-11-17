@@ -33,4 +33,4 @@
   - `yarn start`
  
 ### Use this chat widget in your app -
-*just paste `<iframe style="position: fixed; bottom: 0; right:0 ; width: 400px; height: 600px; border: none; z-index: 900;" src="http://localhost:4000/" ></iframe>` in the last of <body> tag in your main html file of project
+*just paste `<iframe style="position: fixed; bottom: 0; right:0 ; width: 400px; height: 600px; border: none; z-index: 900;" src="https://mindpeers-riyaz.onrender.com/" ></iframe>` in the last of <body> tag in your main html file of project
